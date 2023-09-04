@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Weather</string>
+    <string name="widget_today_name" translatable="false">weather</string>
+
+    <string-array name="languages" translatable="false">
+        <item>en</item>
+        <item>ru</item>
+    </string-array>
+    <string name="error">Щось пішло не так...</string>
+    <string name="wind">Вітер: </string>
+    <string name="humidity">"вологість: "</string>
+    <string name="current_tab">СЬОГОДНІ</string>
+    <string name="forecast_tab">ПРОГНОЗ</string>
+</resources>

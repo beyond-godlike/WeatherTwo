@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error">Что то пошло не так...</string>
+    <string name="wind">"Ветер: "</string>
+    <string name="humidity">"влажность: "</string>
+    <string name="current_tab">СЕГОДНЯ</string>
+    <string name="forecast_tab">ПРОГНОЗ</string>
+</resources>
