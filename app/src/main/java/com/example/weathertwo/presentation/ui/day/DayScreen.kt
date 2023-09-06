@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.weathertwo.presentation.ui.day
 
 import android.annotation.SuppressLint
@@ -7,6 +9,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -86,7 +95,7 @@ fun LabelCity() {
         text = "City",
         modifier = Modifier.padding(20.dp, 20.dp, 8.dp, 8.dp),
         color = Black,
-        style = MaterialTheme.typography.h6
+        style = MaterialTheme.typography.bodySmall
     )
 }
 
@@ -122,7 +131,7 @@ fun ButtonOk(viewModel: MainViewModel) {
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(20.dp, 20.dp),
-            elevation = ButtonDefaults.elevation(10.dp)
+            elevation = ButtonDefaults.buttonElevation(10.dp)
         ) {
             Text(text = "OK")
         }
@@ -154,7 +163,7 @@ fun LabelCityName(city: String) {
         text = city,
         modifier = Modifier.padding(5.dp),
         color = Black,
-        style = MaterialTheme.typography.h5
+        style = MaterialTheme.typography.headlineLarge
     )
 
 }
@@ -165,7 +174,7 @@ fun LabelTemp(temp: String) {
         text = "$temp°C",
         color = ColorPrimaryDark,
         modifier = Modifier.padding(5.dp),
-        style = MaterialTheme.typography.h5
+        style = MaterialTheme.typography.headlineMedium
     )
 }
 
@@ -174,7 +183,7 @@ fun LabelWeather(weather: String) {
     Text(
         text = weather,
         color = Grey,
-        style = MaterialTheme.typography.h6
+        style = MaterialTheme.typography.headlineSmall
     )
 
 }

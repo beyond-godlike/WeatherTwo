@@ -42,6 +42,7 @@ class WeatherWidgetWorker @AssistedInject constructor(
         return try {
             updateWidget(
                 weather.responseCurrent.location.name,
+                weather.responseCurrent.current?.condition?.icon.toString(),
                 weather.responseCurrent.current?.feelslike_c.toString(),
                 weather.responseCurrent.current?.wind_kph.toString(),
                 weather.responseCurrent.current?.humidity.toString(),
@@ -56,6 +57,7 @@ class WeatherWidgetWorker @AssistedInject constructor(
 
     suspend fun updateWidget(
         location: String,
+        img: String,
         temp: String,
         windKph: String,
         humidity: String,
@@ -64,6 +66,7 @@ class WeatherWidgetWorker @AssistedInject constructor(
         GlanceAppWidgetManager(context).getGlanceIds(WeatherWidget::class.java).forEach { glanceId ->
             updateAppWidgetState(context, glanceId) { prefs ->
                 prefs[stringPreferencesKey("location_key")] = location
+                prefs[stringPreferencesKey("img_key")] = img
                 prefs[stringPreferencesKey("temp_key")] = temp
                 prefs[stringPreferencesKey("wind_kph")] = windKph
                 prefs[stringPreferencesKey("humidity_key")] = humidity

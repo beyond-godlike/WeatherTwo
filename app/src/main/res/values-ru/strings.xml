@@ -5,4 +5,5 @@
     <string name="humidity">"влажность: "</string>
     <string name="current_tab">СЕГОДНЯ</string>
     <string name="forecast_tab">ПРОГНОЗ</string>
+    <string name="widget_image">погода</string>
 </resources>

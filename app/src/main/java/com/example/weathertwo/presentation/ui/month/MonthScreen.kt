@@ -8,9 +8,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -113,7 +113,7 @@ fun Date(date: String) {
         text = date,
         modifier = Modifier.padding(8.dp, 8.dp, 8.dp, 8.dp),
         color = Black,
-        style = MaterialTheme.typography.button
+        style = MaterialTheme.typography.titleSmall
     )
 }
 
@@ -123,7 +123,7 @@ fun MinTemp(minTemp: String) {
         text = "$minTemp°C",
         modifier = Modifier.padding(8.dp, 8.dp, 8.dp, 8.dp),
         color = Black,
-        style = MaterialTheme.typography.button
+        style = MaterialTheme.typography.titleSmall
     )
 }
 
@@ -133,7 +133,7 @@ fun MaxTemp(maxTemp: String) {
         text = "$maxTemp°C",
         modifier = Modifier.padding(8.dp, 8.dp, 8.dp, 8.dp),
         color = Black,
-        style = MaterialTheme.typography.button
+        style = MaterialTheme.typography.titleSmall
     )
 
 }

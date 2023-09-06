@@ -12,4 +12,5 @@
     <string name="humidity">"вологість: "</string>
     <string name="current_tab">СЬОГОДНІ</string>
     <string name="forecast_tab">ПРОГНОЗ</string>
+    <string name="widget_image">погода</string>
 </resources>

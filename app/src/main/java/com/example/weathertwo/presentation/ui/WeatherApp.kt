@@ -1,5 +1,6 @@
 package com.example.weathertwo.presentation.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,38 +13,39 @@ import com.example.weathertwo.presentation.ui.day.DayScreen
 import com.example.weathertwo.presentation.ui.month.MonthScreen
 import com.example.weathertwo.presentation.ui.theme.ColorAccent
 import com.example.weathertwo.presentation.ui.theme.ColorPrimaryDark
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.pagerTabIndicatorOffset
-import com.google.accompanist.pager.rememberPagerState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.material3.Text
 import androidx.compose.ui.platform.LocalContext
 import com.example.weathertwo.R
-
 import kotlinx.coroutines.launch
 
-@ExperimentalPagerApi
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun WeatherApp() {
 
     val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val tabs =
+        listOf(context.getString(R.string.current_tab), context.getString(R.string.forecast_tab))
 
-    Surface(modifier = Modifier.fillMaxSize()) {
-        val pagerState = rememberPagerState()
-        val tabs = listOf(context.getString(R.string.current_tab), context.getString(R.string.forecast_tab))
-        val state by remember { mutableStateOf(0) }
-        val scope = rememberCoroutineScope()
+    val pagerState = rememberPagerState { tabs.size }
 
-
-        //HorizontalPager
-        //VerticalPager
-
-        //https://developer.android.com/jetpack/androidx/releases/compose-foundation#1.4.0-alpha03
-        // TAB
+    Surface(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
         Column {
-            TabRow(selectedTabIndex = state,
-                indicator = {
+            TabRow(
+                selectedTabIndex = pagerState.currentPage,
+                indicator = { tabPos ->
                     TabRowDefaults.Indicator(
-                        Modifier.pagerTabIndicatorOffset(pagerState, it)
+                        Modifier.tabIndicatorOffset(tabPos[pagerState.currentPage])
                     )
                 },
             ) {
@@ -65,17 +67,16 @@ fun WeatherApp() {
                 }
             }
 
-            // PAGER
             HorizontalPager(
-                count = tabs.size,
+                modifier = Modifier.fillMaxSize(),
                 state = pagerState,
-            ) { index ->
+            ) { page ->
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    when (index) {
+                    when (page) {
                         0 -> DayScreen(viewModel = hiltViewModel())
                         1 -> MonthScreen(viewModel = hiltViewModel())
                     }

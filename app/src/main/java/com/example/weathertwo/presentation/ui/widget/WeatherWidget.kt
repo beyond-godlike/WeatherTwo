@@ -1,6 +1,7 @@
 package com.example.weathertwo.presentation.ui.widget
 
 
+
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.datastore.preferences.core.Preferences
@@ -39,12 +40,14 @@ class WeatherWidget() : GlanceAppWidget() {
 
 
         val location = state[stringPreferencesKey("location_key")] ?: ""
+        val img = state[stringPreferencesKey("img_key")] ?: ""
         val temp = state[stringPreferencesKey("temp_key")] ?: ""
         val windKph = state[stringPreferencesKey("wind_kph")] ?: ""
         val humidity = state[stringPreferencesKey("humidity_key")] ?: ""
 
         val weatherState = WeatherState(
             location = location,
+            img = img,
             temp = temp,
             windKph = windKph,
             humidity = humidity
@@ -67,6 +70,17 @@ class WeatherWidget() : GlanceAppWidget() {
                 ),
             )
             Spacer(modifier = GlanceModifier.height(20.dp))
+
+            /*
+
+            Image(
+                provider = ImageProvider(R.drawable.weather),
+                contentDescription = context.getString(R.string.widget_image),
+                contentScale = ContentScale.FillBounds,
+                modifier = GlanceModifier.size(50.dp),
+            )
+
+             */
             Text(
                 weatherState.temp + " °C",
                 style = TextStyle(
@@ -96,5 +110,4 @@ class WeatherWidget() : GlanceAppWidget() {
             //Button(text = "Update", onClick = actionRunCallback<WidgetRefreshAction>())
         }
     }
-
 }
