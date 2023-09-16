@@ -1,15 +1,14 @@
 package com.example.weathertwo.presentation.ui.month
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,20 +17,25 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.rememberImagePainter
 import com.example.weathertwo.data.model.future.Forecastday
 import com.example.weathertwo.presentation.ui.MainViewModel
-import com.example.weathertwo.presentation.ui.theme.Black
 import com.example.weathertwo.R
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
+import com.example.weathertwo.presentation.ui.Screen
+import com.example.weathertwo.presentation.ui.common.Date
+import com.example.weathertwo.presentation.ui.common.IconWeather
+import com.example.weathertwo.presentation.ui.common.MaxTemp
+import com.example.weathertwo.presentation.ui.common.MinTemp
+import com.example.weathertwo.presentation.ui.common.countRGB
+import com.example.weathertwo.presentation.ui.common.countRGBStroke
 
 @Composable
 fun MonthScreen(
     viewModel: MainViewModel = viewModel(),
+    navController: NavController,
     //onBackPressed: () -> Unit
 ) {
-    val context = LocalContext.current
-
     when (val state = viewModel.state.value) {
         is MainViewModel.State.START -> {
 
@@ -43,24 +47,36 @@ fun MonthScreen(
         }
         is MainViewModel.State.FAILURE -> {
             Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-                Text(text = context.getString(R.string.error), fontSize = 16.sp)
+                Text(text = stringResource(R.string.error), fontSize = 16.sp)
             }
         }
         is MainViewModel.State.SUCCESS -> {
             val weather = state.weather.responseFuture
-            WeatherList(forecastList = weather.forecast?.forecastday!!, viewModel)
+            WeatherList(forecastList = weather.forecast?.forecastday!!, navController)
         }
+
+        else -> {}
     }
 }
 
 @Composable
-fun WeatherList(forecastList: List<Forecastday>, viewModel: MainViewModel) {
-    LazyRow(modifier = Modifier.padding(0.dp, 26.dp, 0.dp, 0.dp)) {
-        itemsIndexed(items = forecastList) { _, item ->
+fun WeatherList(
+    forecastList: List<Forecastday>,
+    navController: NavController
+) {
+
+    LazyRow(
+        modifier = Modifier
+            .padding(0.dp, 26.dp, 0.dp, 0.dp)
+    ) {
+        itemsIndexed(items = forecastList) {it, item ->
             WeatherCard(
                 forecast = item,
-                Color(viewModel.countRGB(item.day?.avgtemp_c?.toFloat()!!)),
-                Color(viewModel.countRGBStroke(item.day?.avgtemp_c?.toFloat()!!))
+                Color(countRGB(item.day?.avgtemp_c?.toFloat()!!)),
+                Color(countRGBStroke(item.day?.avgtemp_c?.toFloat()!!)),
+                onItemClick = { _ ->
+                    navController.navigate(Screen.DetailedDay.createRoute(it))
+                },
             )
 
         }
@@ -68,7 +84,12 @@ fun WeatherList(forecastList: List<Forecastday>, viewModel: MainViewModel) {
 }
 
 @Composable
-fun WeatherCard(forecast: Forecastday, color: Color, colorStroke: Color) {
+fun WeatherCard(
+    forecast: Forecastday,
+    color: Color,
+    colorStroke: Color,
+    onItemClick:(date: String) -> Unit
+) {
     Column(
         modifier = Modifier
             .padding(4.dp)
@@ -79,7 +100,10 @@ fun WeatherCard(forecast: Forecastday, color: Color, colorStroke: Color) {
             .border(
                 border = BorderStroke(1.dp, colorStroke),
                 shape = RoundedCornerShape(4.dp)
-            ),
+            )
+            .clickable {
+                onItemClick(forecast.date.toString())
+            },
         horizontalAlignment = Alignment.Start
     ) {
         Date(forecast.date!!)
@@ -89,51 +113,4 @@ fun WeatherCard(forecast: Forecastday, color: Color, colorStroke: Color) {
     }
 }
 
-@Composable
-fun IconWeather(imgUrl: String) {
-    val painter = rememberImagePainter(
-        data = "https:$imgUrl",
-        builder = {
-            placeholder(R.drawable.weather)
-            crossfade(true)
-        }
-    )
 
-    Image(
-        painter = painter,
-        contentDescription = null,
-        modifier = Modifier
-            .size(40.dp)
-    )
-}
-
-@Composable
-fun Date(date: String) {
-    Text(
-        text = date,
-        modifier = Modifier.padding(8.dp, 8.dp, 8.dp, 8.dp),
-        color = Black,
-        style = MaterialTheme.typography.titleSmall
-    )
-}
-
-@Composable
-fun MinTemp(minTemp: String) {
-    Text(
-        text = "$minTemp°C",
-        modifier = Modifier.padding(8.dp, 8.dp, 8.dp, 8.dp),
-        color = Black,
-        style = MaterialTheme.typography.titleSmall
-    )
-}
-
-@Composable
-fun MaxTemp(maxTemp: String) {
-    Text(
-        text = "$maxTemp°C",
-        modifier = Modifier.padding(8.dp, 8.dp, 8.dp, 8.dp),
-        color = Black,
-        style = MaterialTheme.typography.titleSmall
-    )
-
-}

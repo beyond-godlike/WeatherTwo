@@ -2,7 +2,6 @@
 
 package com.example.weathertwo.presentation.ui.day
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -80,7 +80,7 @@ fun Day(weather: CurrentWeatherResponse, viewModel: MainViewModel) {
         ) {
             WeatherImage("https:" + weather.current!!.condition!!.icon!!)
             Spacer(modifier = Modifier.height(16.dp))
-            LabelCityName(weather.location.name ?: "London")
+            LabelCityName(weather.location.name)
             Spacer(modifier = Modifier.height(16.dp))
             LabelTemp(weather.current?.feelslike_c.toString())
             Spacer(modifier = Modifier.height(16.dp))
@@ -92,7 +92,7 @@ fun Day(weather: CurrentWeatherResponse, viewModel: MainViewModel) {
 @Composable
 fun LabelCity() {
     Text(
-        text = "City",
+        text = stringResource(R.string.city),
         modifier = Modifier.padding(20.dp, 20.dp, 8.dp, 8.dp),
         color = Black,
         style = MaterialTheme.typography.bodySmall

@@ -4,7 +4,6 @@ import android.graphics.Color
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weathertwo.data.model.Weather
 import com.example.weathertwo.domain.prefs.PrefsHelper
@@ -19,7 +18,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.abs
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -77,29 +75,6 @@ class MainViewModel @Inject constructor(
         prefsHelper.saveLastCity(city)
     }
 
-
-    private fun fib(n: Int): Int {
-        return if (n <= 1) n else fib(n - 1) + fib(n - 2)
-    }
-
-    fun countRGBStroke(avg: Float): Int {
-        val hsv = FloatArray(3)
-        hsv[0] = 359.0f - (200.0f + (fib(avg.toInt()) / 100.0f))
-        hsv[1] = abs(avg) / 100
-        hsv[2] = 0.8f
-
-
-        return Color.HSVToColor(hsv)
-    }
-
-    fun countRGB(avg: Float): Int {
-        val hsv = FloatArray(3)
-        hsv[0] = 359.0f - (200.0f + (fib(avg.toInt()) / 100.0f))
-        hsv[1] = abs(avg) / 100
-        hsv[2] = 1.0f
-
-        return Color.HSVToColor(hsv)
-    }
 
     sealed class State : ViewState {
         object START : State()

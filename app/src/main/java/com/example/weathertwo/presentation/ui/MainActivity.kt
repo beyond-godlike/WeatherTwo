@@ -9,14 +9,15 @@ import com.example.weathertwo.presentation.ui.theme.WeatherTwoTheme
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.os.Build
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.core.content.ContextCompat
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.weathertwo.R
 import dagger.hilt.android.AndroidEntryPoint
 
-@Suppress("DEPRECATION")
 @ExperimentalFoundationApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -34,8 +35,9 @@ class MainActivity : ComponentActivity() {
 
 
         setContent {
+            val navController = rememberNavController()
             WeatherTwoTheme {
-                WeatherApp()
+                Navigation(navController)
             }
         }
 

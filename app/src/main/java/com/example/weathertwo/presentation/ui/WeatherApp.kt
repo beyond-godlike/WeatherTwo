@@ -22,17 +22,18 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavController
 import com.example.weathertwo.R
+import com.example.weathertwo.presentation.ui.theme.ColorTab
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WeatherApp() {
-
-    val context = LocalContext.current
+fun WeatherApp(navController: NavController) {
     val scope = rememberCoroutineScope()
     val tabs =
-        listOf(context.getString(R.string.current_tab), context.getString(R.string.forecast_tab))
+        listOf(stringResource(R.string.current_tab), stringResource(R.string.forecast_tab))
 
     val pagerState = rememberPagerState { tabs.size }
 
@@ -42,6 +43,7 @@ fun WeatherApp() {
     ) {
         Column {
             TabRow(
+                containerColor = ColorTab,
                 selectedTabIndex = pagerState.currentPage,
                 indicator = { tabPos ->
                     TabRowDefaults.Indicator(
@@ -62,7 +64,7 @@ fun WeatherApp() {
                                 text = text,
                                 color = if (pagerState.currentPage == index) ColorPrimaryDark else ColorAccent
                             )
-                        }
+                        },
                     )
                 }
             }
@@ -78,7 +80,7 @@ fun WeatherApp() {
                 ) {
                     when (page) {
                         0 -> DayScreen(viewModel = hiltViewModel())
-                        1 -> MonthScreen(viewModel = hiltViewModel())
+                        1 -> MonthScreen(viewModel = hiltViewModel(), navController)
                     }
                 }
             }
